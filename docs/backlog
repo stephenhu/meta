@@ -1,0 +1,15 @@
+open:
++ detect and compile changes only
++ support .markdown, .mkd file extensions
++ support uppercase file extensions
++ create index of articles
++ crop articles
++ list articles based on date
+
+iced:
++ tie static files with source repository
++ clone template files
++ add config.ru file for testing, this should be added during compilation
+
+closed:
+

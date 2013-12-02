@@ -39,7 +39,7 @@ module Metc
             puts "directory already exists"
           else
             FileUtils.mkdir_p(name)
-            puts "directory {name} created".green
+            puts "directory #{name} created".green
           end
 
         end
@@ -57,6 +57,24 @@ module Metc
 
         else
           abort "layout.haml, navbar.haml, and footer.haml required".red
+        end
+
+      end
+
+      def generate_filename( filename, dir )
+
+        ext = File.extname(filename)
+
+        if ext == MARKDOWN
+          f = filename.chomp(MARKDOWN) + HTML
+        else
+          f = filename.chomp(HAML) + HTML
+        end
+
+        if dir.nil?
+          return f
+        else
+          return dir + "/" + f
         end
 
       end
@@ -81,29 +99,27 @@ module Metc
 
       end
 
-      def to_html( exclude, output )
+      def to_html( exclude, dir )
 
         exclusions = check_exclusions(exclude)
 
-        haml_files = Dir.glob("*.haml")
+        templates = Dir.glob("*.haml") + Dir.glob("*.md")
 
-        if haml_files.empty?
+        if templates.empty?
           abort "no source files found".red
         else
 
           init_templates
 
-          create_directory(output) unless output.nil?
+          create_directory(dir) unless dir.nil?
 
-          haml_files.each do |h|
+          templates.each do |h|
 
             next if exclusions.include?(h)
 
             html = @layout.render { Tilt.new(h).render }
 
-            filename = h.chomp(HAML) + HTML
-
-            filename = output + "/" + filename unless output.nil?
+            filename = generate_filename( h, dir )
 
             create_file( html, filename )
 

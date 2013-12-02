@@ -7,6 +7,7 @@ metc is used to translate templates such as haml or markdown into static web pag
 * ruby 1.9.2+
 * bundler
 * haml
+* redcarpet
 * thor
 * tilt
 
