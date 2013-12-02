@@ -1,0 +1,20 @@
+requirements:
+
++ support haml, md
++ static page preview
++ static page indexing
+
+design:
+
+directory layout example:
+   
++ root
++-- content
++---- article1.html
++---- article2.html
++-- css
++-- images
++-- js
++ about.html
++ index.html (entry to content)
+
