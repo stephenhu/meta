@@ -8,13 +8,32 @@ design:
 
 directory layout example:
    
-+ root
-+-- content
-+---- article1.html
-+---- article2.html
++ src
++-- site.db
++-- article1.md
++-- article2.md
++-- layout.haml
++-- navbar.haml
++-- footer.haml
 +-- css
 +-- images
 +-- js
-+ about.html
-+ index.html (entry to content)
+
+* create a flat hierarchy of html files
+* js, css, images are found in folders
+* reference architecture suggests that source files be stored in src folder
+
+sitemap:
+
+sqlite database for indexing pages
+
+articles( id, creation, modification, title, layout, src )
+
+
+1.  crawl src directory for files ending with .haml, .md (.mkd, .markdown)
+2.  hash files, compare with site.sqlite3 file to find revisions
+3.  create main page consisting of default latest 10
+  a.  shrink content to less than x words
+  b.  organize by latest at the top
+4.  create individual pages
 
