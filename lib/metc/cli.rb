@@ -20,6 +20,15 @@ module Metc
 
     end
 
+    desc( "init", "initialize" )
+    def init
+
+      f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
+
+      FileUtils.cp( f, Dir.pwd )
+
+    end
+
     desc( "test", "testing" )
     def test
 
