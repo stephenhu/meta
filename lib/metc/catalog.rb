@@ -49,9 +49,9 @@ module Metc
     def get_recent(count)
 
       if count < 0
-        rs = self.db[:contents].order(:created_at).all
+        rs = self.db[:contents].order(Sequel.desc(:created_at)).all
       else
-        rs = self.db[:contents].order(:created_at).limit(count).all
+        rs = self.db[:contents].order(Sequel.desc(:created_at)).limit(count).all
       end
 
       rs.each do |r|
@@ -69,17 +69,20 @@ module Metc
 
     end
 
-    def check_content(content)
+    def check_contents(contents)
 
-      title   = ask "Title? "
-      hash    = Digest::MD5.hexdigest(content)
+      contents.each do |c|
 
-      if content_exists?(content)
-        revise_content( content, title, hash )
-      else
-        add_content( content, title, hash )
+        hash    = Digest::MD5.hexdigest(c)
+
+        if content_exists?(c)
+          revise_content( c, hash )
+        else
+          title   = ask "Title? "
+          add_content( c, title, hash )
+        end
+
       end
-
 
     end
 
@@ -93,11 +96,12 @@ module Metc
 
     end
 
-    def revise_content( file, title, hash )
+    def revise_content( file, hash )
 
+      puts self.db[:contents].where(:path => file).select(:title).first()[:title]
       self.db[:contents].where(:path => file).update(
         :hash => hash,
-        :title => title,
+        #:title => title,
         :updated_at => Time.now )
 
     end

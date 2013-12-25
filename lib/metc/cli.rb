@@ -12,11 +12,8 @@ module Metc
 
       p = Metc::Page.new
 
-      contents = Metc::Filelib.get_contents
-
-      contents.each do |c|
-        p.generate(c)
-      end
+      p.generate()
+      p.generate_main()
 
     end
 
@@ -26,6 +23,15 @@ module Metc
       f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
 
       FileUtils.cp( f, Dir.pwd )
+
+    end
+
+    desc( "stage", "staging environment" )
+    def stage
+
+      config = File.join( File.dirname(__FILE__), "../../config/config.ru" )
+
+      FileUtils.cp( config, Dir.pwd )
 
     end
 

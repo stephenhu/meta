@@ -70,15 +70,21 @@ module Metc
 
     end
 
-    def generate(content)
+    def generate()
 
-      return if File.zero?(content)
+      contents = Metc::Filelib.get_contents
 
-      html = @layout.render { Tilt.new(content).render }
+      contents.each do |c|
 
-      Metc::Filelib.create_file( html, content )
+        next if File.zero?(c)
 
-      @catalog.check_content(content)
+        html = @layout.render { Tilt.new(c).render }
+
+        Metc::Filelib.create_file( html, c )
+
+      end
+
+      @catalog.check_contents(contents)
 
     end
 

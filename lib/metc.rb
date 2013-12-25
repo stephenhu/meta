@@ -24,7 +24,6 @@ end
 module Metc
 
   BASEDIR         = ".".freeze
-  COLS            = [ 1, 2, 2, 3, 4 ]
   DATASTORE       = File.join( Dir.pwd, "site.sqlite3" )
   EXCLUDES        = [ "layout.haml", "navbar.haml", "footer.haml" ]
   HAML            = ["*.haml"]
@@ -33,7 +32,7 @@ module Metc
   HTMLEXT         = ".html".freeze
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MARKDOWNEXT     = ".md".freeze
-  SEED            = 1234
+  SEED            = 123456
 
 end
 

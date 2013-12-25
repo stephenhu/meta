@@ -2,9 +2,16 @@ open:
 + detect and compile changes only
 + support .markdown, .mkd file extensions
 + support uppercase file extensions
-+ create index of articles
 + crop articles
-+ list articles based on date
++ destination directory
++ migrate schema without losing any data
++ multiple templates
++ single entry template
++ check new files into database
++ randomize col8a and colb
++ syntax highlighting for code
++ -f option to overwrite all files
++ title modification
 
 iced:
 + tie static files with source repository
@@ -12,4 +19,6 @@ iced:
 + add config.ru file for testing, this should be added during compilation
 
 closed:
++ create index of articles
++ list articles based on date
 
