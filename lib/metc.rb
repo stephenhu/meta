@@ -30,9 +30,10 @@ module Metc
   HAMLEXT         = ".haml".freeze
   HTML            = ["*.html"]
   HTMLEXT         = ".html".freeze
+  INDEX           = "index.html".freeze
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MARKDOWNEXT     = ".md".freeze
-  SEED            = 123456
+  SEED            = 1234562
 
 end
 

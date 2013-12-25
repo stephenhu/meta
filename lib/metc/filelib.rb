@@ -17,28 +17,28 @@ module Metc
 
     end
 
-    def self.create_file( text, filename )
+    def self.create_file( text, filename, overwrite=false )
 
       filename = File.basename( filename, File.extname(filename) ) + HTMLEXT
 
-      overwrite = false
-      write     = false
+      reply   = false
+      write   = false
 
       if File.exists?(filename)
 
-        overwrite = ask("file #{filename} exists, overwrite?")
+        reply = agree("file #{filename} exists, overwrite?") { |q| q.default = "n" } unless overwrite
 
       else
         write = true
       end
 
-      if overwrite or write
+      if overwrite or reply or write
  
         f = File.open( filename, "w" )
         f.write(text)
         f.close
 
-        if overwrite
+        if overwrite or reply
           puts "file #{filename} overwritten".green
         else
           puts "file #{filename} created".green

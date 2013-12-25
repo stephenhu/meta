@@ -26,7 +26,17 @@ module Metc
       if length == 1
         return @col12.render( self, :contents => contents )
       elsif length == 2
-        return @col8a.render( self, :contents => contents )
+
+        rng = Random.new(SEED)
+
+        r = rng.rand(1..2)
+
+        if r == 2
+          return @col8a.render( self, :contents => contents )
+        else
+          return @col8b.render( self, :contents => contents )
+        end
+
       elsif length == 3
         return @col4.render( self, :contents => contents )
       elsif length == 4
@@ -35,7 +45,7 @@ module Metc
 
     end
 
-    def generate_main()
+    def generate_main(overwrite=false)
 
       c = @catalog.get_recent(-1)
 
@@ -49,11 +59,7 @@ module Metc
 
       while remain != 0 do
 
-        if remain > 4
-          n = rng.rand(1..4)
-        else
-          n = remain
-        end
+        n = rng.rand(1..remain)
 
         r = generate_row(c[index..index+n-1])
 
@@ -66,11 +72,11 @@ module Metc
 
       html = @layout.render { doc }
 
-      Metc::Filelib.create_file( html, "index.html" )
+      Metc::Filelib.create_file( html, INDEX, overwrite )
 
     end
 
-    def generate()
+    def generate(overwrite=false)
 
       contents = Metc::Filelib.get_contents
 
@@ -80,7 +86,7 @@ module Metc
 
         html = @layout.render { Tilt.new(c).render }
 
-        Metc::Filelib.create_file( html, c )
+        Metc::Filelib.create_file( html, c, overwrite )
 
       end
 

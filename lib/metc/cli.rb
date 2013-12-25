@@ -4,16 +4,18 @@ module Metc
     include Thor::Actions
 
     desc( "compile", "compile meta files" )
-    method_option :output, :type => :string, :required => false,
-      :desc => "location of source meta files"
-    method_option :exclude, :type => :string, :required => false,
-      :desc => "comma separated list"
+    method_option :output, :aliases => "-o", :type => :string,
+      :required => false, :desc => "static file output directory"
+    method_option :exclude, :aliases => "-e", :type => :string,
+      :required => false, :desc => "comma separated list"
+    method_option :force, :aliases => "-f", :type => :boolean,
+      :required => false, :desc => "don't prompt to overwrite files?"
     def compile
 
       p = Metc::Page.new
 
-      p.generate()
-      p.generate_main()
+      p.generate(options[:force])
+      p.generate_main(options[:force])
 
     end
 
