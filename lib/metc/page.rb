@@ -82,7 +82,13 @@ module Metc
 
       contents.each do |c|
 
-        next if File.zero?(c)
+        if File.zero?(c)
+
+          contents.delete(c)
+          puts "skipped file #{c} - empty file".yellow
+          next
+
+        end 
 
         html = @layout.render { Tilt.new(c).render }
 

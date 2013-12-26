@@ -26,7 +26,8 @@ module Metc
 
       if File.exists?(filename)
 
-        reply = agree("file #{filename} exists, overwrite?") { |q| q.default = "n" } unless overwrite
+        reply = agree("file #{filename} exists, overwrite?".red) {
+          |q| q.default = "n" } unless overwrite
 
       else
         write = true
