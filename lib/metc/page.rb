@@ -4,9 +4,11 @@ module Metc
 
     attr_reader :layout, :navbar, :catalog
 
-    def initialize()
+    def initialize(dest=BASEDIR)
 
-      @catalog = Metc::Catalog.new
+      @dest     = dest
+
+      @catalog  = Metc::Catalog.new
 
       @layout = Tilt.new("layout.haml")
       @navbar = Tilt.new("navbar.haml")
@@ -72,31 +74,32 @@ module Metc
 
       html = @layout.render { doc }
 
-      Metc::Filelib.create_file( html, INDEX, overwrite )
+      Metc::Filelib.create_file( html, INDEX, @dest, overwrite )
 
     end
 
     def generate(overwrite=false)
 
       contents = Metc::Filelib.get_contents
+      exclude  = []
 
       contents.each do |c|
 
         if File.zero?(c)
 
-          contents.delete(c)
           puts "skipped file #{c} - empty file".yellow
+          exclude << c
           next
 
         end 
 
-        html = @layout.render { Tilt.new(c).render }
+        html    = @layout.render { Tilt.new(c).render }
 
-        Metc::Filelib.create_file( html, c, overwrite )
+        Metc::Filelib.create_file( html, c, @dest, overwrite )
 
       end
 
-      @catalog.check_contents(contents)
+      @catalog.check_contents( contents, exclude )
 
     end
 

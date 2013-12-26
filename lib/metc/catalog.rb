@@ -69,9 +69,11 @@ module Metc
 
     end
 
-    def check_contents(contents)
+    def check_contents( contents, exclude )
 
       contents.each do |c|
+
+        next if exclude.include?(c)
 
         hash    = Digest::MD5.hexdigest(c)
 
@@ -98,7 +100,7 @@ module Metc
 
     def revise_content( file, hash )
 
-      puts self.db[:contents].where(:path => file).select(:title).first()[:title]
+      #puts self.db[:contents].where(:path => file).select(:title).first()[:title]
       self.db[:contents].where(:path => file).update(
         :hash => hash,
         #:title => title,

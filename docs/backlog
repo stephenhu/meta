@@ -1,16 +1,11 @@
 open:
 + detect and compile changes only
-+ support .markdown, .mkd file extensions
 + support uppercase file extensions
 + crop articles
-+ destination directory
 + migrate schema without losing any data
 + multiple templates
 + single entry template
-+ check new files into database
-+ randomize col8a and colb
 + syntax highlighting for code
-+ -f option to overwrite all files
 + title modification
 
 iced:
@@ -21,4 +16,8 @@ iced:
 closed:
 + create index of articles
 + list articles based on date
-
++ support .markdown, .mkd file extensions
++ randomize col8a and colb
++ -f option to overwrite all files
++ destination directory
++ check new files into database

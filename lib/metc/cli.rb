@@ -3,23 +3,29 @@ module Metc
   class CLI < Thor
     include Thor::Actions
 
-    desc( "compile", "compile meta files" )
+    desc "compile", "compile meta files" 
     method_option :output, :aliases => "-o", :type => :string,
       :required => false, :desc => "static file output directory"
-    method_option :exclude, :aliases => "-e", :type => :string,
-      :required => false, :desc => "comma separated list"
+    #method_option :exclude, :aliases => "-e", :type => :string,
+    #  :required => false, :desc => "comma separated list"
     method_option :force, :aliases => "-f", :type => :boolean,
-      :required => false, :desc => "don't prompt to overwrite files?"
+      :required => false, :desc => "don't prompt to overwrite files"
     def compile
 
-      p = Metc::Page.new
+      if options[:output].nil?
+        dest = "."
+      else
+        dest = options[:output]
+      end
+
+      p = Metc::Page.new(dest)
 
       p.generate(options[:force])
       p.generate_main(options[:force])
 
     end
 
-    desc( "init", "initialize" )
+    desc "init", "initialize static metc project" 
     def init
 
       f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
@@ -28,7 +34,7 @@ module Metc
 
     end
 
-    desc( "stage", "staging environment" )
+    desc "stage", "staging environment" 
     def stage
 
       config = File.join( File.dirname(__FILE__), "../../config/config.ru" )

@@ -34,6 +34,7 @@ module Metc
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MARKDOWNEXT     = ".md".freeze
   SEED            = 1234562
+  SLASH           = "/".freeze
 
 end
 

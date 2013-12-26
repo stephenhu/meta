@@ -17,9 +17,10 @@ module Metc
 
     end
 
-    def self.create_file( text, filename, overwrite=false )
+    def self.create_file( text, filename, dest, overwrite=false )
 
       filename = File.basename( filename, File.extname(filename) ) + HTMLEXT
+      filename = dest + SLASH + filename
 
       reply   = false
       write   = false
