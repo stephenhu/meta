@@ -13,42 +13,10 @@ module Metc
       @layout = Tilt.new("layout.haml")
       @navbar = Tilt.new("navbar.haml")
       @col    = Tilt.new("col.haml")
-      @col3   = Tilt.new("col3.haml")
-      @col4   = Tilt.new("col4.haml")
-      @col6   = Tilt.new("col6.haml")
-      @col8a  = Tilt.new("col8a.haml")
-      @col8b  = Tilt.new("col8b.haml")
-      @col12  = Tilt.new("col12.haml")
 
     end
 
     def generate_row(contents)
-
-      length = contents.length
-
-      if length == 1
-        return @col12.render( self, :contents => contents )
-      elsif length == 2
-
-        rng = Random.new(SEED)
-
-        r = rng.rand(1..2)
-
-        if r == 2
-          return @col8a.render( self, :contents => contents )
-        else
-          return @col8b.render( self, :contents => contents )
-        end
-
-      elsif length == 3
-        return @col4.render( self, :contents => contents )
-      elsif length == 4
-        return @col3.render( self, :contents => contents )
-      end
-
-    end
-
-    def generate_row1(contents)
 
       length = contents.length
 
@@ -102,13 +70,12 @@ module Metc
 
         n = rng.rand(1..remain)
 
-        r = generate_row1(c[index..index+n-1])
+        r = generate_row(c[index..index+n-1])
 
         remain = remain - n
         index  = index + n
 
         rows << r
-        #doc = doc + r
         
       end
 
