@@ -12,6 +12,7 @@ module Metc
 
       @layout = Tilt.new("layout.haml")
       @navbar = Tilt.new("navbar.haml")
+      @col    = Tilt.new("col.haml")
       @col3   = Tilt.new("col3.haml")
       @col4   = Tilt.new("col4.haml")
       @col6   = Tilt.new("col6.haml")
@@ -47,6 +48,44 @@ module Metc
 
     end
 
+    def generate_row1(contents)
+
+      length = contents.length
+
+      if length == 1
+        contents[0][:col_classes] = "col-lg-12 box"
+      elsif length == 2
+
+        rng = Random.new(SEED)
+
+        r = rng.rand(1..3)
+
+        if r == 3
+          contents[0][:col_classes] = "col-lg-6 box"
+          contents[1][:col_classes] = "col-lg-6 box"
+        elsif r == 2
+          contents[0][:col_classes] = "col-lg-8 box"
+          contents[1][:col_classes] = "col-lg-4 box"
+        else
+          contents[0][:col_classes] = "col-lg-4 box"
+          contents[1][:col_classes] = "col-lg-8 box"
+        end
+
+      elsif length == 3
+        contents[0][:col_classes] = "col-lg-4 box"
+        contents[1][:col_classes] = "col-lg-4 box"
+        contents[2][:col_classes] = "col-lg-4 box"
+      else
+        contents[0][:col_classes] = "col-lg-3 box"
+        contents[1][:col_classes] = "col-lg-3 box"
+        contents[2][:col_classes] = "col-lg-3 box"
+        contents[3][:col_classes] = "col-lg-3 box"
+      end
+
+      return contents
+
+    end
+
     def generate_main(overwrite=false)
 
       c = @catalog.get_recent(-1)
@@ -55,7 +94,7 @@ module Metc
       remain = length
       index  = 0
 
-      doc = ""
+      rows = []
 
       rng = Random.new(SEED)
 
@@ -63,16 +102,19 @@ module Metc
 
         n = rng.rand(1..remain)
 
-        r = generate_row(c[index..index+n-1])
+        r = generate_row1(c[index..index+n-1])
 
         remain = remain - n
         index  = index + n
 
-        doc = doc + r
+        rows << r
+        #doc = doc + r
         
       end
 
-      html = @layout.render { doc }
+      doc   = @col.render( self, :rows => rows )
+
+      html  = @layout.render { doc }
 
       Metc::Filelib.create_file( html, INDEX, @dest, overwrite )
 
@@ -80,26 +122,37 @@ module Metc
 
     def generate(overwrite=false)
 
-      contents = Metc::Filelib.get_contents
-      exclude  = []
+      all = Metc::Filelib.get_contents
 
-      contents.each do |c|
+      all.each do |c|
 
         if File.zero?(c)
 
           puts "skipped file #{c} - empty file".yellow
-          exclude << c
           next
 
-        end 
+        end
 
-        html    = @layout.render { Tilt.new(c).render }
+        content = @catalog.check_content(c)
 
+        content[:col_classes] = "col-lg-12 box"
+        content[:summary]     = Tilt.new(c).render
+        content[:link]        = File.basename( content[:path],
+          File.extname(content[:path]) ) + HTMLEXT
+
+        contents = []
+        contents << content
+
+        rows = []
+        rows << contents
+
+        r = @col.render( self, :rows => rows )
+
+        html = @layout.render { r }
+        
         Metc::Filelib.create_file( html, c, @dest, overwrite )
 
       end
-
-      @catalog.check_contents( contents, exclude )
 
     end
 

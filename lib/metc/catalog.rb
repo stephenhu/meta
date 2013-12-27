@@ -69,22 +69,18 @@ module Metc
 
     end
 
-    def check_contents( contents, exclude )
+    def check_content(content)
 
-      contents.each do |c|
+      hash    = Digest::MD5.hexdigest(content)
 
-        next if exclude.include?(c)
-
-        hash    = Digest::MD5.hexdigest(c)
-
-        if content_exists?(c)
-          revise_content( c, hash )
-        else
-          title   = ask "Title? "
-          add_content( c, title, hash )
-        end
-
+      if content_exists?(content)
+        revise_content( content, hash )
+      else
+        title   = ask "Title? "
+        add_content( content, title, hash )
       end
+
+      return self.db[:contents].where(:hash => hash).first()
 
     end
 
