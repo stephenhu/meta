@@ -7,6 +7,8 @@ open:
 + single entry template
 + syntax highlighting for code
 + title modification
++ referencing a link and commenting on that
++ .haml files all expected to be in current directory along with .md files
 
 iced:
 + tie static files with source repository

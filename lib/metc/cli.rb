@@ -30,11 +30,29 @@ module Metc
 
       f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
 
-      FileUtils.cp( f, Dir.pwd )
+      if File.exists?("site.sqlite3")
+
+        puts "Warning: All index data will be lost!".red
+        reply = agree("database already exists, overwrite?".red) {
+          |q| q.default = "n" }
+
+        if reply
+          FileUtils.cp( f, Dir.pwd )
+          puts "database re-initialized".green
+        else
+          puts "database not initialized".red
+        end
+
+      else
+
+        FileUtils.cp( f, Dir.pwd )
+        puts "database initialized".green
+
+      end
 
     end
 
-    desc "stage", "staging environment" 
+    desc "stage", "staging environment"
     def stage
 
       config = File.join( File.dirname(__FILE__), "../../config/config.ru" )
