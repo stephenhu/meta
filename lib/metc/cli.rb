@@ -33,20 +33,20 @@ module Metc
       if File.exists?("site.sqlite3")
 
         puts "Warning: All index data will be lost!".red
-        reply = agree("database already exists, overwrite?".red) {
+        reply = agree("Database already exists, overwrite?".red) {
           |q| q.default = "n" }
 
         if reply
           FileUtils.cp( f, Dir.pwd )
-          puts "database re-initialized".green
+          puts "Database re-initialized".green
         else
-          puts "database not initialized".red
+          puts "Database not initialized".red
         end
 
       else
 
         FileUtils.cp( f, Dir.pwd )
-        puts "database initialized".green
+        puts "Database initialized".green
 
       end
 
@@ -57,7 +57,14 @@ module Metc
 
       config = File.join( File.dirname(__FILE__), "../../config/config.ru" )
 
-      FileUtils.cp( config, Dir.pwd )
+      if File.exists?("config.ru")
+        puts "Environment has already been staged, no action taken.".yellow
+      else
+
+        FileUtils.cp( config, Dir.pwd )
+        puts "Run 'rackup' to start testing.".green
+
+      end
 
     end
 
