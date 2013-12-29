@@ -76,7 +76,7 @@ module Metc
       if content_exists?(content)
         revise_content( content, hash )
       else
-        title   = ask "Title? "
+        title   = ask "Please add a Title for #{content}? "
         add_content( content, title, hash )
       end
 

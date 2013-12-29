@@ -1,19 +1,18 @@
 open:
 + detect and compile changes only
 + support uppercase file extensions
-+ crop articles
 + migrate schema without losing any data
 + multiple templates
-+ single entry template
 + syntax highlighting for code
 + title modification
 + referencing a link and commenting on that
-+ .haml files all expected to be in current directory along with .md files
++ google analytics
 
 iced:
 + tie static files with source repository
 + clone template files
-+ add config.ru file for testing, this should be added during compilation
++ crop articles
++ .haml files all expected to be in current directory along with .md files
 
 closed:
 + create index of articles
@@ -23,3 +22,5 @@ closed:
 + -f option to overwrite all files
 + destination directory
 + check new files into database
++ single entry template
++ add config.ru file for testing, this should be added during compilation
