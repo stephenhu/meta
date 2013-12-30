@@ -22,27 +22,11 @@ module Metc
 
     end
 
-    def template_exists?(file)
+    def get_content(file)
 
-      rs = self.db[:templates].where(:path => file).all
+      rs = self.db[:contents].where(:path => file).first
 
-      if rs.empty?
-        return false
-      else
-        return true
-      end
-
-    end
-
-    def template_revised?( path, hash )
-
-      rs = self.db[:templates].where( :hash => hash, :path => path )
-
-      if rs.nil?
-        return true
-      else
-        return false
-      end
+      return rs
 
     end
 
@@ -104,6 +88,13 @@ module Metc
 
     end
 
+    def update_content_title( file, title )
+
+      self.db[:contents].where(:path => file).update(
+        :title => title, :updated_at => Time.now )
+
+    end
+
     def check_templates(templates)
 
       templates.each do |t|
@@ -146,9 +137,27 @@ module Metc
 
     end
 
-    def content_count()
+    def template_exists?(file)
 
-      return self.db[:contents].count
+      rs = self.db[:templates].where(:path => file).all
+
+      if rs.empty?
+        return false
+      else
+        return true
+      end
+
+    end
+
+    def template_revised?( path, hash )
+
+      rs = self.db[:templates].where( :hash => hash, :path => path )
+
+      if rs.nil?
+        return true
+      else
+        return false
+      end
 
     end
 

@@ -68,7 +68,35 @@ module Metc
 
     end
 
-    desc( "test", "testing" )
+    desc "title", "Change Title"
+    def title(file)
+
+      catalog = Metc::Catalog.new
+
+      f = catalog.get_content(file)
+
+      unless f.nil?
+
+        puts "Current Title: #{f[:title]}"
+        reply = ask "New Title? ".yellow
+
+        unless reply.empty?
+
+          response = agree(
+            "Are you certain that you want to make this change? ") {
+            |q| q.default = "n" }
+
+          catalog.update_content_title( file, reply ) if response
+
+        else
+          puts "Title cannot be empty, no action taken.".red
+        end
+
+      end
+
+    end
+
+    desc "test", "testing"
     def test
 
       p = Metc::Page.new
