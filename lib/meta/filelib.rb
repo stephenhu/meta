@@ -1,4 +1,4 @@
-module Metc
+module Meta
 
   module Filelib
 
@@ -52,13 +52,13 @@ module Metc
 
     def self.get_templates()
 
-      return Dir.glob( Metc::HAML, File::FNM_CASEFOLD )
+      return Dir.glob( Meta::HAML, File::FNM_CASEFOLD )
 
     end
 
     def self.get_contents()
 
-      return Dir.glob( Metc::MARKDOWN, File::FNM_CASEFOLD )
+      return Dir.glob( Meta::MARKDOWN, File::FNM_CASEFOLD )
 
     end
 

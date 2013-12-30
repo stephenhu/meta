@@ -10,18 +10,18 @@ require "sqlite3"
 require "thor"
 require "tilt"
 
-require File.join( File.dirname(__FILE__), "metc", "catalog" )
-require File.join( File.dirname(__FILE__), "metc", "cli" )
-require File.join( File.dirname(__FILE__), "metc", "filelib" )
-require File.join( File.dirname(__FILE__), "metc", "page" )
-require File.join( File.dirname(__FILE__), "metc", "version" )
+require File.join( File.dirname(__FILE__), "meta", "catalog" )
+require File.join( File.dirname(__FILE__), "meta", "cli" )
+require File.join( File.dirname(__FILE__), "meta", "filelib" )
+require File.join( File.dirname(__FILE__), "meta", "page" )
+require File.join( File.dirname(__FILE__), "meta", "version" )
 
 # macro-like used to keep haml compatibility
 def haml(file)
   return Tilt.new("#{file}.haml").render
 end
 
-module Metc
+module Meta
 
   BASEDIR         = ".".freeze
   DATASTORE       = File.join( Dir.pwd, "site.sqlite3" )

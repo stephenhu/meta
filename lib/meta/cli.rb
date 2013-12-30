@@ -1,4 +1,4 @@
-module Metc
+module Meta
 
   class CLI < Thor
     include Thor::Actions
@@ -18,14 +18,14 @@ module Metc
         dest = options[:output]
       end
 
-      p = Metc::Page.new(dest)
+      p = Meta::Page.new(dest)
 
       p.generate(options[:force])
       p.generate_main(options[:force])
 
     end
 
-    desc "init", "initialize static metc project" 
+    desc "init", "initialize static meta project" 
     def init
 
       f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
@@ -71,7 +71,7 @@ module Metc
     desc "title", "Change Title"
     def title(file)
 
-      catalog = Metc::Catalog.new
+      catalog = Meta::Catalog.new
 
       f = catalog.get_content(file)
 
@@ -99,7 +99,7 @@ module Metc
     desc "test", "testing"
     def test
 
-      p = Metc::Page.new
+      p = Meta::Page.new
       p.generate_main
  
     end

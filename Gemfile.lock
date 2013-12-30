@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metc (0.0.1)
+    meta (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ DEPENDENCIES
   colorize
   haml
   highline
-  metc!
+  meta!
   rack
   rake
   redcarpet

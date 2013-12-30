@@ -1,4 +1,4 @@
-module Metc
+module Meta
 
   class Page
 
@@ -8,7 +8,7 @@ module Metc
 
       @dest     = dest
 
-      @catalog  = Metc::Catalog.new
+      @catalog  = Meta::Catalog.new
 
       @layout = Tilt.new("layout.haml")
       @navbar = Tilt.new("navbar.haml")
@@ -83,13 +83,13 @@ module Metc
 
       html  = @layout.render { doc }
 
-      Metc::Filelib.create_file( html, INDEX, @dest, overwrite )
+      Meta::Filelib.create_file( html, INDEX, @dest, overwrite )
 
     end
 
     def generate(overwrite=false)
 
-      all = Metc::Filelib.get_contents
+      all = Meta::Filelib.get_contents
 
       all.each do |c|
 
@@ -117,7 +117,7 @@ module Metc
 
         html = @layout.render { r }
         
-        Metc::Filelib.create_file( html, c, @dest, overwrite )
+        Meta::Filelib.create_file( html, c, @dest, overwrite )
 
       end
 

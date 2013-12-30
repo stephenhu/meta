@@ -1,4 +1,4 @@
-module Metc
+module Meta
 
   class Catalog
 
@@ -6,7 +6,7 @@ module Metc
 
     def initialize
 
-      self.db = Sequel.sqlite(Metc::DATASTORE)
+      self.db = Sequel.sqlite(Meta::DATASTORE)
       
     end
 
@@ -35,7 +35,8 @@ module Metc
       if count < 0
         rs = self.db[:contents].order(Sequel.desc(:created_at)).all
       else
-        rs = self.db[:contents].order(Sequel.desc(:created_at)).limit(count).all
+        rs = self.db[:contents].order(Sequel.desc(:created_at)).limit(
+          count).all
       end
 
       rs.each do |r|
