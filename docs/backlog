@@ -1,12 +1,11 @@
 open:
-+ migrate schema without losing any data
-+ multiple templates
-+ syntax highlighting for code
-+ title modification
++ custom templates
 + referencing a link and commenting on that
 
 iced:
++ syntax highlighting for code
 + support uppercase file extensions
++ migrate schema without losing any data
 + detect and compile changes only
 + tie static files with source repository
 + clone template files
@@ -24,3 +23,5 @@ closed:
 + single entry template
 + add config.ru file for testing, this should be added during compilation
 + google analytics
++ title modification
+
