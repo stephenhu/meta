@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in meta.gemspec
 gemspec
 
+gem "capybara-webkit"
 gem "colorize"
 gem "haml"
 gem "highline"

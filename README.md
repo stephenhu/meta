@@ -8,7 +8,8 @@ be used to test/preview static pages in your development environment without
 having to deploy into production.
 
 ## requirements
-* ruby 1.9.2+
+* linux (tested on ubuntu 12.04.x lts)
+* ruby (1.9.2+)
 * bundler
 * colorize
 * haml

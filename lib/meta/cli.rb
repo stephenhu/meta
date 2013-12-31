@@ -96,6 +96,15 @@ module Meta
 
     end
 
+    desc "capture", "capture thumbnail of url"
+    def capture( url, filename )
+
+      w = Meta::Webtools.new
+
+      w.to_thumbnail( url, filename )
+
+    end
+
     desc "test", "testing"
     def test
 
