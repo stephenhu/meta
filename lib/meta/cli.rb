@@ -97,11 +97,9 @@ module Meta
     end
 
     desc "capture", "capture thumbnail of url"
-    def capture( url, filename )
+    def capture(url)
 
-      w = Meta::Webtools.new
-
-      w.to_thumbnail( url, filename )
+      puts url
 
     end
 

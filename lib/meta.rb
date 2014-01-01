@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require "capybara/dsl"
-require "capybara-webkit"
 require "colorize"
 require "digest/md5"
 require "haml"
@@ -17,7 +15,6 @@ require File.join( File.dirname(__FILE__), "meta", "cli" )
 require File.join( File.dirname(__FILE__), "meta", "filelib" )
 require File.join( File.dirname(__FILE__), "meta", "page" )
 require File.join( File.dirname(__FILE__), "meta", "version" )
-require File.join( File.dirname(__FILE__), "meta", "webtools" )
 
 # macro-like used to keep haml compatibility
 def haml(file)
