@@ -2,86 +2,37 @@ module Meta
 
   class Page
 
-    attr_reader :layout, :navbar, :catalog
+    attr_reader :catalog
 
     def initialize(dest=BASEDIR)
 
-      @dest     = dest
+      @dest       = dest
 
-      @catalog  = Meta::Catalog.new
+      @catalog    = Meta::Catalog.new
 
-      @layout = Tilt.new("layout.haml")
-      @navbar = Tilt.new("navbar.haml")
-      @col    = Tilt.new("col.haml")
+      @templates  = Meta::Filelib.get_templates
+
+      puts @templates
+
+      @layout = Tilt.new("layout.haml") if @templates.include?("layout.haml")
+      @navbar = Tilt.new("navbar.haml") if @templates.include?("navbar.haml")
+      @index  = Tilt.new("index.haml")  if @templates.include?("index.haml")
+      @page   = Tilt.new("page.haml")   if @templates.include?("page.haml")
+
+      if @layout.nil?
+        abort("layout.haml template missing, this file must be included".red)
+      end
+      #TODO: must include index and page as well
 
     end
 
-    def generate_row(contents)
+    def generate_index(overwrite=false)
 
-      length = contents.length
+      contents = @catalog.get_recent(-1)
 
-      if length == 1
-        contents[0][:col_classes] = "col-lg-12 box"
-      elsif length == 2
+      doc = @index.render( self, :contents => contents )
 
-        rng = Random.new(SEED)
-
-        r = rng.rand(1..3)
-
-        if r == 3
-          contents[0][:col_classes] = "col-lg-6 box"
-          contents[1][:col_classes] = "col-lg-6 box"
-        elsif r == 2
-          contents[0][:col_classes] = "col-lg-8 box"
-          contents[1][:col_classes] = "col-lg-4 box"
-        else
-          contents[0][:col_classes] = "col-lg-4 box"
-          contents[1][:col_classes] = "col-lg-8 box"
-        end
-
-      elsif length == 3
-        contents[0][:col_classes] = "col-lg-4 box"
-        contents[1][:col_classes] = "col-lg-4 box"
-        contents[2][:col_classes] = "col-lg-4 box"
-      else
-        contents[0][:col_classes] = "col-lg-3 box"
-        contents[1][:col_classes] = "col-lg-3 box"
-        contents[2][:col_classes] = "col-lg-3 box"
-        contents[3][:col_classes] = "col-lg-3 box"
-      end
-
-      return contents
-
-    end
-
-    def generate_main(overwrite=false)
-
-      c = @catalog.get_recent(-1)
-
-      length = c.length
-      remain = length
-      index  = 0
-
-      rows = []
-
-      rng = Random.new(SEED)
-
-      while remain != 0 do
-
-        n = rng.rand(1..remain)
-
-        r = generate_row(c[index..index+n-1])
-
-        remain = remain - n
-        index  = index + n
-
-        rows << r
-        
-      end
-
-      doc   = @col.render( self, :rows => rows )
-
-      html  = @layout.render { doc }
+      html = @layout.render { doc }
 
       Meta::Filelib.create_file( html, INDEX, @dest, overwrite )
 
@@ -102,20 +53,13 @@ module Meta
 
         content = @catalog.check_content(c)
 
-        content[:col_classes] = "col-lg-12 box"
         content[:summary]     = Tilt.new(c).render
         content[:link]        = File.basename( content[:path],
           File.extname(content[:path]) ) + HTMLEXT
 
-        contents = []
-        contents << content
+        p = @page.render( self, :content => content )
 
-        rows = []
-        rows << contents
-
-        r = @col.render( self, :rows => rows )
-
-        html = @layout.render { r }
+        html = @layout.render { p }
         
         Meta::Filelib.create_file( html, c, @dest, overwrite )
 

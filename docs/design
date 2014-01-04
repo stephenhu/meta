@@ -9,15 +9,12 @@ design:
 directory layout example:
    
 + src
-+-- site.db
++-- site.sqlite3
 +-- article1.md
 +-- article2.md
 +-- layout.haml
 +-- navbar.haml
 +-- footer.haml
-+-- css
-+-- images
-+-- js
 
 * create a flat hierarchy of html files
 * js, css, images are found in folders
@@ -36,4 +33,53 @@ articles( id, creation, modification, title, layout, src )
   a.  shrink content to less than x words
   b.  organize by latest at the top
 4.  create individual pages
+
+in the initial version, layout.haml, navbar.haml were fixed templates.  this
+assumes that each site will have these files.  there can actually be multiple
+layouts for a site so there needs to be a mapping of layouts to content (md
+files).  also there should be enough flexibility to not have navbars, or
+multiple navbars, etc.
+
+there will be 4 main types of haml templates: page layouts, navbars, footers,
+and contents.
+
+layout files are the main templates that house the structure of the site,
+from enclosing html tags to the head which includes all of the stylesheets
+and javascript assets.  in order to identify layout files, the filename will
+be searched for the substring "layout.haml".
+
+e.g.
+
+layout.haml
+main.layout.haml
+sub-layout.haml
+layout-sub.haml (not valid)
+
+each of these will be listed in the layouts table
+
+navbars are embedded in layout templates and need to have the "navbar.haml"
+identifier in the filename.
+
+footers are also embedded in layout templates and need to have the
+"footer.haml" identifier in the filename.
+
+content templates are also embedded in layout templates and need to have the
+"content.haml" identifier in the filename.
+
+if there's only one set of navbars, footer, and layout, then the user
+won't be prompted.
+
+the above is for a more advanced version, let's keep things simple, you
+must have layout.haml, index.haml, and page.haml.
+
+1.  layout.haml defines the overall site from html tags to body and head.
+meta requires this file be present in order to compile.
+
+2.  index.haml includes the content for the main page of a site, typically
+it's a summary of all posts.
+
+3.  page.haml includes the content for a single post.
+
+let's initially support the case where layout.haml, index.haml, and page.haml
+are required.
 

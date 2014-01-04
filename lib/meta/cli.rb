@@ -21,7 +21,7 @@ module Meta
       p = Meta::Page.new(dest)
 
       p.generate(options[:force])
-      p.generate_main(options[:force])
+      p.generate_index(options[:force])
 
     end
 
