@@ -34,7 +34,7 @@ module Meta
 
       html = @layout.render { doc }
 
-      Meta::Filelib.create_file( html, INDEX, @dest, overwrite )
+      Meta::Filelib.create_file( html, INDEX, HTMLEXT, @dest, overwrite )
 
     end
 
@@ -61,7 +61,7 @@ module Meta
 
         html = @layout.render { p }
         
-        Meta::Filelib.create_file( html, c, @dest, overwrite )
+        Meta::Filelib.create_file( html, c, HTMLEXT, @dest, overwrite )
 
       end
 

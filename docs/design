@@ -83,3 +83,23 @@ it's a summary of all posts.
 let's initially support the case where layout.haml, index.haml, and page.haml
 are required.
 
+custom templates:
+
+assume a site has pages for about, projects, etc.  there should be a generic
+way to associate a layout and content layer, and the process should be very
+simple.
+
+assume there are these types of posts:
+
+1.  blog:  mostly original text from an author, can contain pictures, tables,
+etc.
+2.  picture:  picture only post, no text.  will include pictures from other
+sources only, will not store many pictures on my site.
+3.  recommended link: user submit's url, title, summary, maybe a picture
+included.
+
+
+markdown compendium:
+
+[![alt text](image link)](web link)
+

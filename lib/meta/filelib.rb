@@ -17,9 +17,9 @@ module Meta
 
     end
 
-    def self.create_file( text, filename, dest, overwrite=false )
+    def self.create_file( text, filename, ext, dest, overwrite=false )
 
-      filename = File.basename( filename, File.extname(filename) ) + HTMLEXT
+      filename = File.basename( filename, File.extname(filename) ) + ext
       filename = dest + SLASH + filename
 
       reply   = false

@@ -97,10 +97,38 @@ module Meta
     end
 
     desc "capture", "capture thumbnail of url"
+    method_option :output, :aliases => "-o", :type => :string,
+      :required => false, :desc => "output directory"
     def capture(url)
 
-      puts url
+      if options[:output].nil?
+        dest = BASEDIR
+      else
+        dest = options[:output]
+      end
 
+      images  = dest + SLASH + "images"
+
+      images  = dest unless Dir.exists?(images)
+
+      cmd     = "xvfb-run url2thumb capture #{url} -o #{images}"
+
+      stdin, stdout, stderr = Open3.popen3(cmd)
+
+      abort( stderr.read.chomp.red ) if stdout.nil?
+
+      out = stdout.read.chomp
+
+      unless out.include?(FEXISTS)
+
+        created = out.split(SPACE).first
+
+        link = "[![referral](images/#{File.basename(created)})](#{url})"
+
+        Meta::Filelib.create_file( link, created, MDEXT, dest, false )
+
+      end
+      
     end
 
     desc "test", "testing"
