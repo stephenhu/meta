@@ -75,7 +75,7 @@ module Meta
         :title => title,
         :hash => hash,
         :path => file,
-        :created_at => File.ctime(file) )
+        :created_at => Time.now )
 
     end
 
