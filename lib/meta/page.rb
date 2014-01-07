@@ -12,8 +12,6 @@ module Meta
 
       @templates  = Meta::Filelib.get_templates
 
-      puts @templates
-
       @layout = Tilt.new("layout.haml") if @templates.include?("layout.haml")
       @navbar = Tilt.new("navbar.haml") if @templates.include?("navbar.haml")
       @index  = Tilt.new("index.haml")  if @templates.include?("index.haml")
@@ -30,9 +28,11 @@ module Meta
 
       contents = @catalog.get_recent(-1)
 
-      doc = @index.render( self, :contents => contents )
+      stats    = @catalog.get_statistics
 
-      html = @layout.render { doc }
+      doc   = @index.render( self, :contents => contents )
+
+      html  = @layout.render( self, :stats => stats ) { doc }
 
       Meta::Filelib.create_file( html, INDEX, HTMLEXT, @dest, overwrite )
 
@@ -41,6 +41,8 @@ module Meta
     def generate(overwrite=false)
 
       all = Meta::Filelib.get_contents
+
+      stats   = @catalog.get_statistics
 
       all.each do |c|
 
@@ -59,7 +61,7 @@ module Meta
 
         p = @page.render( self, :content => content )
 
-        html = @layout.render { p }
+        html = @layout.render( self, :stats => stats ) { p }
         
         Meta::Filelib.create_file( html, c, HTMLEXT, @dest, overwrite )
 

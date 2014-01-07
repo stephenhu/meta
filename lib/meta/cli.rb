@@ -134,8 +134,10 @@ module Meta
     desc "test", "testing"
     def test
 
-      p = Meta::Page.new
-      p.generate_main
+      c = Meta::Catalog.new
+      stats = c.get_statistics
+      puts stats[:posts]
+      puts stats[:pictures]
  
     end
 

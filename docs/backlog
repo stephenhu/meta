@@ -27,4 +27,5 @@ closed:
 + add config.ru file for testing, this should be added during compilation
 + google analytics
 + title modification
++ statistics
 

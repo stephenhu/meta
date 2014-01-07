@@ -10,6 +10,17 @@ module Meta
       
     end
 
+    def get_statistics
+
+      stats = Hash.new
+
+      stats[:posts]       = self.db[:contents].count
+      stats[:pictures]    = self.db[:contents].where(:picture => true).count
+
+      return stats
+
+    end
+
     def content_exists?(file)
 
       rs = self.db[:contents].where(:path => file).all
