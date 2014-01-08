@@ -4,6 +4,8 @@ open:
 + post tags
 + rss/atom feed
 + config file based configuration
++ pull content from other sinks like facebook, flickr, twitter, wechat, etc
++ links
 
 iced:
 + syntax highlighting for code
