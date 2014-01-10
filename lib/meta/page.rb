@@ -15,15 +15,24 @@ module Meta
       @pages    = Meta::Filelib.get_templates(PAGES)
       @footers  = Meta::Filelib.get_templates(FOOTERS)
 
-      unless @layouts.include?("layout.haml")
+      unless @layouts.include?(LAYOUT)
         abort("layout.haml missing, you must have a layout file".red)
       end
 
-      unless @pages.include?("index.haml")
+      unless @pages.include?(INDEX)
         abort("index.haml missing, you must have an index file".red)
       end
 
+      unless @pages.include?(PAGE)
+        abort("page.haml missing, you must have a page file".red)
+      end
+
+      # asdfasdo
+
+      @catalog.sync_templates()
+
       @index    = Tilt.new(INDEX)
+      @page     = Tilt.new(PAGE)
       @layout   = Tilt.new(LAYOUT)
 
     end
@@ -57,7 +66,7 @@ module Meta
 
         end
 
-        content = @catalog.check_content(c)
+        content = @catalog.sync_content(c)
 
         content[:summary]     = Tilt.new(c).render
         content[:link]        = File.basename( content[:path],

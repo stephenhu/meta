@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 require "sequel"
+require "sequel-fixture"
 require "sqlite3"
 
 DB = "db/site.sqlite3".freeze
@@ -24,6 +25,17 @@ namespace :db do
     conn = Sequel.sqlite(DB)
     Sequel::Migrator.run( conn, "db/migrate" )
 
+  end
+
+  desc "seed database"
+  task :seed do
+
+    Sequel::Fixture.path = File.join( File.dirname(__FILE__), "db/fixtures" )
+    conn = Sequel.sqlite(DB)
+    fixture = Sequel::Fixture.new :initial, conn
+
+    fixture.push
+   
   end
 
 end

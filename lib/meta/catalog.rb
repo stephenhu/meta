@@ -10,6 +10,15 @@ module Meta
       
     end
 
+    def self.upgrade
+
+      db = Sequel.sqlite(Meta::DATASTORE)
+
+      Sequel::Migrator.run( db, File.join( File.dirname(__FILE__),
+        "../../db/migrate" ) )
+
+    end
+
     def get_statistics
 
       stats = Hash.new
@@ -65,7 +74,7 @@ module Meta
 
     end
 
-    def check_content(content)
+    def sync_content(content)
 
       hash    = Digest::MD5.hexdigest(content)
 
@@ -107,7 +116,7 @@ module Meta
 
     end
 
-    def check_templates(templates)
+    def sync_templates(templates)
 
       templates.each do |t|
 

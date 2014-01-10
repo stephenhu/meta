@@ -115,4 +115,17 @@ a better feature would be to pull things from external sources like
 flickr, picassa, or even facebook if you have access.  i'd like to
 create a plugin architecture to allow for these different plugins.
 
-a new column was added in the most recent database 
+a new column was added in the most recent database
+
+database migration
+
+the migrations in sequel basically allow you to change schema, but i'd like
+to also update or clean data in the table.
+
+potential scenarios:
+
+1.  Contains an old database with old schema
+
+2.  Contains a new database with the latest schema
+
+

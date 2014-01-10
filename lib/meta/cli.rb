@@ -12,6 +12,8 @@ module Meta
       :required => false, :desc => "don't prompt to overwrite files"
     def compile
 
+      Meta::Catalog.upgrade
+
       if options[:output].nil?
         dest = "."
       else

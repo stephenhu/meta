@@ -3,7 +3,7 @@ Sequel.migration do
   up do
 
     alter_table(:contents) do
-      add_foreign_key :layout_id, :layouts
+      add_foreign_key :template_id, :templates
     end
 
   end
@@ -11,7 +11,7 @@ Sequel.migration do
   down do
 
     alter_table(:contents) do
-      drop_foreign_key :layout_id
+      drop_foreign_key :template_id
     end
 
   end

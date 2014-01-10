@@ -30,18 +30,21 @@ module Meta
   HAMLEXT         = ".haml".freeze
   HTML            = ["*.html"]
   HTMLEXT         = ".html".freeze
-  INDEX           = "pages/index.html".freeze
-  LAYOUT          = "layout/layout.haml".freeze
+  INDEX           = "pages/index.haml".freeze
+  LAYOUT          = "layouts/layout.haml".freeze
   LAYOUTS         = "layouts/*.haml".freeze
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MDEXT           = ".md".freeze
   NAVBARS         = "navbars/*.haml".freeze
+  PAGE            = "pages/page.haml".freeze
   PAGES           = "pages/*.haml".freeze
   PNGEXT          = ".png".freeze
   SEED            = 1234562
   SKELETONDIRS    = [ "footers", "layouts", "navbars", "pages" ]
   SLASH           = "/".freeze
   SPACE           = " ".freeze
+
+  Sequel.extension :migration
 
 end
 
