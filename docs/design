@@ -103,3 +103,15 @@ markdown compendium:
 
 [![alt text](image link)](web link)
 
+
+the url capture feature is too complicated, first it requires native
+dependencies libqt4, xorg or xvfb, and another project that i created
+called url2thumb.  second, it overly complicates the simplicity that
+meta started with, the ability to customize via the rich template
+languages.  i also thought a use case would be to show all links as
+a thumbnail, but that's just going to cause more photos to be stored
+on the server.  so to keep things as lightweight as possible, i think
+a better feature would be to pull things from external sources like
+flickr, picassa, or even facebook if you have access.  i'd like to
+create a plugin architecture to allow for these different plugins.
+

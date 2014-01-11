@@ -1,11 +1,9 @@
 open:
 + custom templates
-+ referencing a link and commenting on that
 + post tags
 + rss/atom feed
 + config file based configuration
 + pull content from other sinks like facebook, flickr, twitter, wechat, etc
-+ links
 
 iced:
 + syntax highlighting for code
@@ -16,6 +14,7 @@ iced:
 + clone template files
 + crop articles
 + .haml files all expected to be in current directory along with .md files
++ links
 
 closed:
 + create index of articles
@@ -30,4 +29,4 @@ closed:
 + google analytics
 + title modification
 + statistics
-
++ referencing a link and commenting on that
