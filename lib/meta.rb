@@ -10,6 +10,7 @@ require "sequel"
 require "sqlite3"
 require "thor"
 require "tilt"
+require "yaml"
 
 require File.join( File.dirname(__FILE__), "meta", "catalog" )
 require File.join( File.dirname(__FILE__), "meta", "cli" )
@@ -25,6 +26,7 @@ end
 module Meta
 
   BASEDIR         = ".".freeze
+  CONFIGFILE      = File.expand_path("~/.meta")
   DATASTORE       = File.join( Dir.pwd, "site.sqlite3" )
   EXCLUDES        = [ "layout.haml", "navbar.haml", "footer.haml" ]
   FEXISTS         = "File already exists".freeze

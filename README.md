@@ -1,4 +1,4 @@
-# meta compiler (meta)
+# meta
 
 ## introduction
 meta is an opinionated static site generator used to compile haml templates
@@ -9,7 +9,7 @@ having to deploy into production.
 
 ## requirements
 * linux (tested on ubuntu 12.04.x lts)
-* ruby (1.9.2+)
+* ruby (1.9.3+)
 * bundler
 * colorize
 * haml
@@ -21,6 +21,7 @@ having to deploy into production.
 * thin
 * thor
 * tilt
+* url2thumb
 
 ## installation
 ```gem install meta```
