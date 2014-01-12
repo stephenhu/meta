@@ -74,8 +74,11 @@ module Meta
         content[:link]        = File.basename( content[:path],
           File.extname(content[:path]) ) + HTMLEXT
 
-        @mylayout = Tilt.new(content[:layout])
-        @mypage   = Tilt.new(content[:page])
+        layout = @catalog.get_template( "layouts", content[:layout_id] )
+        page   = @catalog.get_template( "pages", content[:page_id] )
+
+        @mylayout = Tilt.new(layout)
+        @mypage   = Tilt.new(page)
 
         p     = @mypage.render( self, :content => content )
 

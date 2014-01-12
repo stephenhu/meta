@@ -60,6 +60,7 @@ module Meta
       end
 
       rs.each do |r|
+
         content = Tilt.new(r[:path]).render
 
         content = "abc" if content.empty?
@@ -68,9 +69,22 @@ module Meta
         r[:link] = File.basename( r[:path], File.extname(r[:path]) ) +
           HTMLEXT
         r[:picture] = false
+
       end
 
       return rs
+
+    end
+
+    def get_template( template, id )
+
+      rs = self.db[template.to_sym].where(:id => id).first
+
+      if rs.nil?
+        return nil
+      else
+        return rs[:path]
+      end
 
     end
 
@@ -90,8 +104,10 @@ module Meta
 
     def select_template(template)
 
-      rs = self.db[:templates].join(:resources, :id => :resource_id).where(
-        :name => template)
+      rs = self.db[template.to_sym].all
+
+      return rs[0][:id] if rs.count == 1
+      return nil if rs.empty?
 
       choose do |menu|
        
@@ -111,31 +127,32 @@ module Meta
       if content_exists?(content)
         revise_content( content, hash )
       else
-
-        title   = ask "Please add a Title for #{content}? "
-        layout  = select_template("layout")
-
-        add_content( content, hash, title, layout )
-
+        add_content( content, hash )
       end
 
       rs    = self.db[:contents].where(:hash => hash).first()
-
-      name  = self.db[:templates].where(:id => rs[:template_id]).first()[:path]
-
-      rs[:layout] = name
 
       return rs
 
     end
 
-    def add_content( file, title, hash, layout )
+    def add_content( file, title )
+
+      title   = ask "Please add a Title for #{file}? "
+
+      layout  = select_template("layouts")
+      navbar  = select_template("navbars")
+      page    = select_template("pages")
+      footer  = select_template("footers")
 
       self.db[:contents].insert(
         :title => title,
         :hash => hash,
         :path => file,
-        :template_id => layout,
+        :layout_id => layout,
+        :navbar_id => navbar,
+        :page_id => page,
+        :footer_id => footer,
         :created_at => Time.now )
 
     end
@@ -144,13 +161,13 @@ module Meta
 
       content = self.db[:contents].where(:path => file).first
 
-      tid = select_template("layout") if content[:template_id].nil?
+      lid = select_template("layouts") if content[:layout_id].nil?
         
       #puts self.db[:contents].where(:path => file).select(:title).first()[:title]
       self.db[:contents].where(:path => file).update(
         :hash => hash,
+        :layout_id => lid,
         #:title => title,
-        :template_id => tid,
         :updated_at => Time.now )
 
     end
@@ -184,8 +201,9 @@ module Meta
 
     def add_template( file, hash )
 
-      self.db[:templates].insert(
-        :resource_id => get_resource(file),
+      dir = File.dirname(file)
+
+      self.db[dir.to_sym].insert(
         :path => file,
         :hash => hash )
 
@@ -193,12 +211,13 @@ module Meta
 
     def revise_template( file, hash )
 
-      rs = self.db[:templates].where( :hash => hash, :path => file ).first
+      dir = File.dirname(file)
+
+      rs = self.db[dir.to_sym].where( :hash => hash, :path => file ).first
 
       if rs.empty?
 
-        self.db[:templates].insert(
-          :resource_id => get_resource(file),
+        self.db[dir.to_sym].insert(
           :path => file,
           :hash => hash )
 
@@ -208,7 +227,9 @@ module Meta
 
     def template_exists?(file)
 
-      rs = self.db[:templates].where(:path => file).all
+      dir = File.dirname(file)
+
+      rs = self.db[dir.to_sym].where(:path => file).all
 
       if rs.empty?
         return false
@@ -220,7 +241,9 @@ module Meta
 
     def template_revised?( path, hash )
 
-      rs = self.db[:templates].where( :hash => hash, :path => path )
+      dir = File.dirname(path)
+
+      rs = self.db[dir.to_sym].where( :hash => hash, :path => path )
 
       if rs.nil?
         return true

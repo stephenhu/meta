@@ -128,4 +128,13 @@ potential scenarios:
 
 2.  Contains a new database with the latest schema
 
+==============
 
+each page should have the following:
+
+1.  layout
+2.  page
+3.  navbar*
+4.  footer*
+
+* - optional
