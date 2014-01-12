@@ -10,29 +10,33 @@ module Meta
 
       @catalog    = Meta::Catalog.new
 
-      @templates  = Meta::Filelib.get_templates
+      @layouts  = Meta::Filelib.get_templates(LAYOUTS)
+      @navbars  = Meta::Filelib.get_templates(NAVBARS)
+      @pages    = Meta::Filelib.get_templates(PAGES)
+      @footers  = Meta::Filelib.get_templates(FOOTERS)
 
-      @layout = Tilt.new("layout.haml") if @templates.include?("layout.haml")
-      @navbar = Tilt.new("navbar.haml") if @templates.include?("navbar.haml")
-      @index  = Tilt.new("index.haml")  if @templates.include?("index.haml")
-      @page   = Tilt.new("page.haml")   if @templates.include?("page.haml")
-
-      if @layout.nil?
-        abort("layout.haml template missing, this file must be included".red)
+      unless @layouts.include?("layout.haml")
+        abort("layout.haml missing, you must have a layout file".red)
       end
-      #TODO: must include index and page as well
+
+      unless @pages.include?("index.haml")
+        abort("index.haml missing, you must have an index file".red)
+      end
+
+      @index    = Tilt.new(INDEX)
+      @layout   = Tilt.new(LAYOUT)
 
     end
 
     def generate_index(overwrite=false)
 
-      contents = @catalog.get_recent(-1)
+      contents  = @catalog.get_recent(-1)
 
-      stats    = @catalog.get_statistics
+      stats     = @catalog.get_statistics
 
-      doc   = @index.render( self, :contents => contents )
+      doc       = @index.render( self, :contents => contents )
 
-      html  = @layout.render( self, :stats => stats ) { doc }
+      html      = @layout.render( self, :stats => stats ) { doc }
 
       Meta::Filelib.create_file( html, INDEX, HTMLEXT, @dest, overwrite )
 
@@ -59,9 +63,12 @@ module Meta
         content[:link]        = File.basename( content[:path],
           File.extname(content[:path]) ) + HTMLEXT
 
-        p = @page.render( self, :content => content )
+        @mylayout = Tilt.new(content[:layout])
+        @mypage   = Tilt.new(content[:page])
 
-        html = @layout.render( self, :stats => stats ) { p }
+        p     = @mypage.render( self, :content => content )
+
+        html  = @mylayout.render( self, :stats => stats ) { p }
         
         Meta::Filelib.create_file( html, c, HTMLEXT, @dest, overwrite )
 

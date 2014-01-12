@@ -1,0 +1,9 @@
+%div{:class => "container"}
+- contents.each do |c|
+  %div{:class => "row"}
+    %div{:class => "col-lg-12"}
+      %a{:href => "#{c[:link]}"}
+        %h3= c[:title]
+        %date= c[:created_at]
+        = c[:summary]
+

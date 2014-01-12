@@ -115,3 +115,4 @@ a better feature would be to pull things from external sources like
 flickr, picassa, or even facebook if you have access.  i'd like to
 create a plugin architecture to allow for these different plugins.
 
+a new column was added in the most recent database 

@@ -18,11 +18,6 @@ require File.join( File.dirname(__FILE__), "meta", "filelib" )
 require File.join( File.dirname(__FILE__), "meta", "page" )
 require File.join( File.dirname(__FILE__), "meta", "version" )
 
-# macro-like used to keep haml compatibility
-def haml(file)
-  return Tilt.new("#{file}.haml").render
-end
-
 module Meta
 
   BASEDIR         = ".".freeze
@@ -30,15 +25,21 @@ module Meta
   DATASTORE       = File.join( Dir.pwd, "site.sqlite3" )
   EXCLUDES        = [ "layout.haml", "navbar.haml", "footer.haml" ]
   FEXISTS         = "File already exists".freeze
+  FOOTERS         = "footers/*.haml".freeze
   HAML            = ["*.haml"]
   HAMLEXT         = ".haml".freeze
   HTML            = ["*.html"]
   HTMLEXT         = ".html".freeze
-  INDEX           = "index.html".freeze
+  INDEX           = "pages/index.html".freeze
+  LAYOUT          = "layout/layout.haml".freeze
+  LAYOUTS         = "layouts/*.haml".freeze
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MDEXT           = ".md".freeze
+  NAVBARS         = "navbars/*.haml".freeze
+  PAGES           = "pages/*.haml".freeze
   PNGEXT          = ".png".freeze
   SEED            = 1234562
+  SKELETONDIRS    = [ "footers", "layouts", "navbars", "pages" ]
   SLASH           = "/".freeze
   SPACE           = " ".freeze
 

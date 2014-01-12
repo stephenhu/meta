@@ -28,27 +28,8 @@ module Meta
     desc "init", "initialize static meta project" 
     def init
 
-      f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
-
-      if File.exists?("site.sqlite3")
-
-        puts "Warning: All index data will be lost!".red
-        reply = agree("Database already exists, overwrite?".red) {
-          |q| q.default = "n" }
-
-        if reply
-          FileUtils.cp( f, Dir.pwd )
-          puts "Database re-initialized".green
-        else
-          puts "Database not initialized".red
-        end
-
-      else
-
-        FileUtils.cp( f, Dir.pwd )
-        puts "Database initialized".green
-
-      end
+      db_init
+      create_skeleton
 
     end
 
@@ -103,6 +84,53 @@ module Meta
       def read_config
 
         return YAML.load_file(CONFIGFILE) if File.exists?(CONFIGFILE)
+
+      end
+
+      def db_init
+
+        f = File.join( File.dirname(__FILE__), "../../db/site.sqlite3" )
+
+        if File.exists?("site.sqlite3")
+
+          puts "Warning: All index data will be lost!".red
+          reply = agree("Database already exists, overwrite?".red) {
+            |q| q.default = "n" }
+
+          if reply
+            FileUtils.cp( f, Dir.pwd )
+            puts "Database re-initialized".green
+          else
+            puts "Database not initialized".red
+          end
+
+        else
+
+          FileUtils.cp( f, Dir.pwd )
+          puts "Database initialized".green
+
+        end
+
+      end
+
+      def create_skeleton
+
+        SKELETONDIRS.each do |d|
+          Meta::Filelib.create_directory(d)
+        end
+
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/layout.haml" ), "layouts" )
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/navbar.haml" ), "navbars" )
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/footer.haml" ), "footers" )
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/index.haml" ), "pages" )
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/page.haml" ), "pages" )
+        FileUtils.cp( File.join( File.dirname(__FILE__),
+          "skeleton/sample.md" ), BASEDIR )
 
       end
 

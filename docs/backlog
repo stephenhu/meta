@@ -3,12 +3,12 @@ open:
 + post tags
 + rss/atom feed
 + config file based configuration
-+ pull content from other sinks like facebook, flickr, twitter, wechat, etc
++ migrate schema and data
 
 iced:
 + syntax highlighting for code
++ pull content from other sinks like facebook, flickr, twitter, wechat, etc
 + support uppercase file extensions
-+ migrate schema without losing any data
 + detect and compile changes only
 + tie static files with source repository
 + clone template files

@@ -7,7 +7,7 @@ module Meta
       unless name.nil?
 
         if File.directory?(name)
-          puts "directory already exists"
+          puts "directory already exists".yellow
         else
           FileUtils.mkdir_p(name)
           puts "directory #{name} created".green
@@ -50,16 +50,12 @@ module Meta
 
     end
 
-    def self.get_templates()
-
-      return Dir.glob( Meta::HAML, File::FNM_CASEFOLD )
-
+    def self.get_templates(pattern)
+      return Dir.glob( pattern, File::FNM_CASEFOLD )
     end
 
-    def self.get_contents()
-
+    def self.get_contents
       return Dir.glob( Meta::MARKDOWN, File::FNM_CASEFOLD )
-
     end
 
   end
