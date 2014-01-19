@@ -4,6 +4,7 @@ open:
 + rss/atom feed
 + config file based configuration
 + migrate schema and data
++ remove from catalog if the file no longer exists
 
 iced:
 + syntax highlighting for code

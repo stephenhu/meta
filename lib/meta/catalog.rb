@@ -2,12 +2,12 @@ module Meta
 
   class Catalog
 
-    attr_accessor :db
+    attr_accessor :db, :resources
 
     def initialize
 
       self.db = Sequel.sqlite(Meta::DATASTORE)
-      
+
     end
 
     def self.upgrade
@@ -74,6 +74,36 @@ module Meta
 
     end
 
+    def get_resource(template)
+
+      dir = File.dirname(template)
+
+      r = self.db[:resources].where(:folder => dir).first()
+
+      if r.nil?
+        return nil
+      else
+        return r[:id]
+      end
+
+    end
+
+    def select_template(template)
+
+      rs = self.db[:templates].join(:resources, :id => :resource_id).where(
+        :name => template)
+
+      choose do |menu|
+       
+        menu.prompt = "Choose #{template}: "
+        rs.each do |r|
+          menu.choice File.basename(r[:path]) do return r[:id] end
+        end
+       
+      end
+      
+    end
+
     def sync_content(content)
 
       hash    = Digest::MD5.hexdigest(content)
@@ -81,30 +111,46 @@ module Meta
       if content_exists?(content)
         revise_content( content, hash )
       else
+
         title   = ask "Please add a Title for #{content}? "
-        add_content( content, title, hash )
+        layout  = select_template("layout")
+
+        add_content( content, hash, title, layout )
+
       end
 
-      return self.db[:contents].where(:hash => hash).first()
+      rs    = self.db[:contents].where(:hash => hash).first()
+
+      name  = self.db[:templates].where(:id => rs[:template_id]).first()[:path]
+
+      rs[:layout] = name
+
+      return rs
 
     end
 
-    def add_content( file, title, hash )
+    def add_content( file, title, hash, layout )
 
       self.db[:contents].insert(
         :title => title,
         :hash => hash,
         :path => file,
+        :template_id => layout,
         :created_at => Time.now )
 
     end
 
     def revise_content( file, hash )
 
+      content = self.db[:contents].where(:path => file).first
+
+      tid = select_template("layout") if content[:template_id].nil?
+        
       #puts self.db[:contents].where(:path => file).select(:title).first()[:title]
       self.db[:contents].where(:path => file).update(
         :hash => hash,
         #:title => title,
+        :template_id => tid,
         :updated_at => Time.now )
 
     end
@@ -121,7 +167,7 @@ module Meta
       templates.each do |t|
 
         hash = Digest::MD5.hexdigest(t)
-
+ 
         if template_exists?(t)
 
           revise_template( t, hash )
@@ -139,6 +185,7 @@ module Meta
     def add_template( file, hash )
 
       self.db[:templates].insert(
+        :resource_id => get_resource(file),
         :path => file,
         :hash => hash )
 
@@ -151,6 +198,7 @@ module Meta
       if rs.empty?
 
         self.db[:templates].insert(
+          :resource_id => get_resource(file),
           :path => file,
           :hash => hash )
 

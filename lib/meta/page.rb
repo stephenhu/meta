@@ -16,20 +16,22 @@ module Meta
       @footers  = Meta::Filelib.get_templates(FOOTERS)
 
       unless @layouts.include?(LAYOUT)
-        abort("layout.haml missing, you must have a layout file".red)
+        abort("layout.haml not found, layout.haml must exist".red)
       end
 
       unless @pages.include?(INDEX)
-        abort("index.haml missing, you must have an index file".red)
+        abort("index.haml not found, index.haml must exist".red)
       end
 
       unless @pages.include?(PAGE)
-        abort("page.haml missing, you must have a page file".red)
+        abort("page.haml not found, you must have a page file".red)
       end
 
-      # asdfasdo
+      templates  = @layouts | @pages
+      templates |= @navbars unless @navbars.nil?
+      templates |= @footers unless @footers.nil?
 
-      @catalog.sync_templates()
+      @catalog.sync_templates(templates)
 
       @index    = Tilt.new(INDEX)
       @page     = Tilt.new(PAGE)

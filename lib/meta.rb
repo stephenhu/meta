@@ -39,6 +39,7 @@ module Meta
   PAGE            = "pages/page.haml".freeze
   PAGES           = "pages/*.haml".freeze
   PNGEXT          = ".png".freeze
+  REQUIRED        = [ "index.haml", "layout.haml", "page.haml" ]
   SEED            = 1234562
   SKELETONDIRS    = [ "footers", "layouts", "navbars", "pages" ]
   SLASH           = "/".freeze

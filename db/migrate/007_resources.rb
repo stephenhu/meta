@@ -2,11 +2,10 @@ Sequel.migration do
 
   up do
 
-    self[:resources].insert(:name => "layout")
-    self[:resources].insert(:name => "navbar")
-    self[:resources].insert(:name => "page")
-    self[:resources].insert(:name => "index")
-    self[:resources].insert(:name => "footer")
+    self[:resources].insert(:name => "layout",  :folder => "layouts")
+    self[:resources].insert(:name => "navbar",  :folder => "navbars")
+    self[:resources].insert(:name => "page",    :folder => "pages")
+    self[:resources].insert(:name => "footer",  :folder => "footers")
        
   end
 
@@ -15,7 +14,6 @@ Sequel.migration do
     self[:resources].where(:name => "layout").delete
     self[:resources].where(:name => "navbar").delete
     self[:resources].where(:name => "page").delete
-    self[:resources].where(:name => "index").delete
     self[:resources].where(:name => "footer").delete
 
   end

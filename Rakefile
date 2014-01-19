@@ -1,6 +1,5 @@
 require "bundler/gem_tasks"
 require "sequel"
-require "sequel-fixture"
 require "sqlite3"
 
 DB = "db/site.sqlite3".freeze

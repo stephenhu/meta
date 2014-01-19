@@ -5,6 +5,7 @@ Sequel.migration do
     create_table(:resources) do
       primary_key   :id
       String        :name, :null => false, :unique => true
+      String        :folder
       String        :comment
       Time          :created_at, :default => Time.now
       Time          :updated_at, :default => Time.now
