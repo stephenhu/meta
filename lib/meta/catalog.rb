@@ -105,7 +105,7 @@ module Meta
     def select_template(template)
 
       rs = self.db[template.to_sym].all
-
+      puts rs.inspect
       return rs[0][:id] if rs.count == 1
       return nil if rs.empty?
 
@@ -122,7 +122,7 @@ module Meta
 
     def sync_content(content)
 
-      hash    = Digest::MD5.hexdigest(content)
+      hash = Digest::MD5.hexdigest(content)
 
       if content_exists?(content)
         revise_content( content, hash )
@@ -130,13 +130,13 @@ module Meta
         add_content( content, hash )
       end
 
-      rs    = self.db[:contents].where(:hash => hash).first()
+      rs = self.db[:contents].where(:hash => hash).first
 
       return rs
 
     end
 
-    def add_content( file, title )
+    def add_content( file, hash )
 
       title   = ask "Please add a Title for #{file}? "
 
@@ -144,7 +144,10 @@ module Meta
       navbar  = select_template("navbars")
       page    = select_template("pages")
       footer  = select_template("footers")
-
+      puts layout
+      puts navbar
+      puts page
+      puts footer
       self.db[:contents].insert(
         :title => title,
         :hash => hash,
@@ -161,7 +164,12 @@ module Meta
 
       content = self.db[:contents].where(:path => file).first
 
-      lid = select_template("layouts") if content[:layout_id].nil?
+      if content[:layout_id].nil?
+        # for legacy schema purposes
+        lid = select_template("layouts")
+      else
+        lid = content[:layout_id]
+      end
         
       #puts self.db[:contents].where(:path => file).select(:title).first()[:title]
       self.db[:contents].where(:path => file).update(
