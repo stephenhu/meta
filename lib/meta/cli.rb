@@ -121,18 +121,47 @@ module Meta
           Meta::Filelib.create_directory(d)
         end
 
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/layout.haml" ), "layouts" )
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/navbar.haml" ), "navbars" )
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/footer.haml" ), "footers" )
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/index.haml" ), "pages" )
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/page.haml" ), "pages" )
-        FileUtils.cp( File.join( File.dirname(__FILE__),
-          "skeleton/sample.md" ), BASEDIR )
+        if File.exists?(LAYOUT)
+          puts "#{LAYOUT} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/layout.haml" ), "layouts" )
+        end
+
+        if File.exists?(NAVBAR)
+          puts "#{NAVBAR} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/navbar.haml" ), "navbars" )
+        end
+
+        if File.exists?(FOOTER)
+          puts "#{FOOTER} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/footer.haml" ), "footers" )
+        end
+
+        if File.exists?(INDEX)
+          puts "#{INDEX} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/index.haml" ), "pages" )
+        end
+
+        if File.exists?(PAGE)
+          puts "#{PAGE} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/page.haml" ), "pages" )
+        end
+
+        if File.exists?(SAMPLE)
+          puts "#{SAMPLE} already exists, file skipped".yellow
+        else
+          FileUtils.cp( File.join( File.dirname(__FILE__),
+            "skeleton/sample.md" ), BASEDIR )
+        end
 
       end
 

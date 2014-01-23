@@ -16,15 +16,15 @@ module Meta
       @footers  = Meta::Filelib.get_templates(FOOTERS)
 
       unless @layouts.include?(LAYOUT)
-        abort("layout.haml not found, layout.haml must exist".red)
+        abort("layout.haml not found, #{LAYOUT}, #{INDEX}, and #{PAGE} must exist".red)
       end
 
       unless @pages.include?(INDEX)
-        abort("index.haml not found, index.haml must exist".red)
+        abort("index.haml not found, #{LAYOUT}, #{INDEX}, and #{PAGE} must exist".red)
       end
 
       unless @pages.include?(PAGE)
-        abort("page.haml not found, you must have a page file".red)
+        abort("page.haml not found, #{LAYOUT}, #{INDEX}, #{PAGE} must exist".red)
       end
 
       templates  = @layouts | @pages
@@ -48,6 +48,8 @@ module Meta
       doc       = @index.render( self, :contents => contents )
 
       html      = @layout.render( self, :stats => stats ) { doc }
+
+      puts "If any content has been modified, index.html should be updated.".yellow
 
       Meta::Filelib.create_file( html, INDEX, HTMLEXT, @dest, overwrite )
 

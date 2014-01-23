@@ -138,3 +138,11 @@ each page should have the following:
 4.  footer*
 
 * - optional
+
+throwing out older versions of meta, they're not ready, plus the migration
+of the database is causing lots of issues.
+
+also, i'd like to focus more on a web gui to frontend the database instead of
+using the command line which will help to make sites more manageable over time,
+especially large sites.
+

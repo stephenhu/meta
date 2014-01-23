@@ -25,6 +25,7 @@ module Meta
   DATASTORE       = File.join( Dir.pwd, "site.sqlite3" )
   EXCLUDES        = [ "layout.haml", "navbar.haml", "footer.haml" ]
   FEXISTS         = "File already exists".freeze
+  FOOTER          = "footers/footer.haml".freeze
   FOOTERS         = "footers/*.haml".freeze
   HAML            = ["*.haml"]
   HAMLEXT         = ".haml".freeze
@@ -35,11 +36,13 @@ module Meta
   LAYOUTS         = "layouts/*.haml".freeze
   MARKDOWN        = ["*.md", "*.markdown", "*.mkd"]
   MDEXT           = ".md".freeze
+  NAVBAR          = "navbar/navbar.haml".freeze
   NAVBARS         = "navbars/*.haml".freeze
   PAGE            = "pages/page.haml".freeze
   PAGES           = "pages/*.haml".freeze
   PNGEXT          = ".png".freeze
   REQUIRED        = [ "index.haml", "layout.haml", "page.haml" ]
+  SAMPLE          = "sample.md".freeze
   SEED            = 1234562
   SKELETONDIRS    = [ "footers", "layouts", "navbars", "pages" ]
   SLASH           = "/".freeze

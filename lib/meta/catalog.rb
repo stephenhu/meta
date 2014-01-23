@@ -105,7 +105,7 @@ module Meta
     def select_template(template)
 
       rs = self.db[template.to_sym].all
-      puts rs.inspect
+
       return rs[0][:id] if rs.count == 1
       return nil if rs.empty?
 
@@ -122,7 +122,7 @@ module Meta
 
     def sync_content(content)
 
-      hash = Digest::MD5.hexdigest(content)
+      hash = Digest::MD5.hexdigest(File.read(content))
 
       if content_exists?(content)
         revise_content( content, hash )
@@ -142,39 +142,40 @@ module Meta
 
       layout  = select_template("layouts")
       navbar  = select_template("navbars")
-      page    = select_template("pages")
+      # leave pages out for now, just default to page.haml
+      #page    = select_template("pages")
       footer  = select_template("footers")
-      puts layout
-      puts navbar
-      puts page
-      puts footer
+
       self.db[:contents].insert(
         :title => title,
         :hash => hash,
         :path => file,
         :layout_id => layout,
         :navbar_id => navbar,
-        :page_id => page,
+        :page_id => 1,
         :footer_id => footer,
         :created_at => Time.now )
 
     end
 
     def revise_content( file, hash )
-
+      
       content = self.db[:contents].where(:path => file).first
+      
+      puts "Changes detected for #{file}".yellow if hash != content[:hash]
 
       if content[:layout_id].nil?
         # for legacy schema purposes
+        puts "Select layout for #{file}:"
         lid = select_template("layouts")
       else
         lid = content[:layout_id]
       end
-        
-      #puts self.db[:contents].where(:path => file).select(:title).first()[:title]
+
       self.db[:contents].where(:path => file).update(
         :hash => hash,
         :layout_id => lid,
+        :page_id => 1,
         #:title => title,
         :updated_at => Time.now )
 
